@@ -25,7 +25,6 @@ public class Delivery {
     private LocalDateTime actualDeliveryTime;
 
     @ManyToOne
-    @JsonBackReference
     private Pizza pizza;
 
     @ManyToOne
