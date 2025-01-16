@@ -20,9 +20,11 @@ public class Pizza {
 
     private String title;
     private int price;
+    private String description;
 
-    public Pizza(String title, int price) {
+    public Pizza(String title, int price, String description) {
         this.title = title;
         this.price = price;
+        this.description = description;
     }
 }
