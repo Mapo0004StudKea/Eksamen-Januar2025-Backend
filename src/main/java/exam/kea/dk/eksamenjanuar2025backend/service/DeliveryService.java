@@ -32,9 +32,14 @@ public class DeliveryService {
 
         // Opret ny levering
         Delivery delivery = new Delivery();
-        delivery.setPizza(pizza); // Sørg for at tilknytte pizzaen her
+        delivery.setPizza(pizza);
         delivery.setExpectedDeliveryTime(LocalDateTime.now().plusMinutes(30));
 
         return deliveryRepository.save(delivery);
+    }
+
+    public List<Delivery> getUnassignedDeliveries() {
+        // Hent alle leveringer uden en tildelt drone
+        return deliveryRepository.findByDroneIsNull();
     }
 }

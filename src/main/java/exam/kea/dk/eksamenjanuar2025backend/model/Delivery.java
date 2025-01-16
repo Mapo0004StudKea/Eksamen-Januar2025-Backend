@@ -25,10 +25,10 @@ public class Delivery {
     private LocalDateTime actualDeliveryTime;
 
     @ManyToOne
+    @JsonBackReference
     private Pizza pizza;
 
     @ManyToOne
-    @JsonBackReference
     private Drone drone;
 
     public Delivery(String address, LocalDateTime expectedDeliveryTime, LocalDateTime actualDeliveryTime, Pizza pizza, Drone drone) {

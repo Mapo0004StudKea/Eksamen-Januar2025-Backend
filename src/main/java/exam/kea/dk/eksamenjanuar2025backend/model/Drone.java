@@ -28,10 +28,10 @@ public class Drone {
     private DroneStatus status;
 
     @ManyToOne
-    @JsonBackReference
     private Station station;
 
     @OneToMany(mappedBy = "drone")
+    @JsonBackReference
     private List<Delivery> deliveries;
 
     public Drone(String uuid, DroneStatus status, Station station) {

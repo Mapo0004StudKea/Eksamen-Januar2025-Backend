@@ -27,4 +27,10 @@ public class DeliveryController {
         // Opret en ny levering med en specifik pizza
         return deliveryService.addDelivery(pizzaId);
     }
+
+    @GetMapping("/queue")
+    public List<Delivery> getUnassignedDeliveries() {
+        // Returner alle leveringer, der mangler en drone
+        return deliveryService.getUnassignedDeliveries();
+    }
 }

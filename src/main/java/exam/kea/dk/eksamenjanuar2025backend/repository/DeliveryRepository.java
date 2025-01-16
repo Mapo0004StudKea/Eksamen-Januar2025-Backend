@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByActualDeliveryTimeIsNullOrderByExpectedDeliveryTimeAsc();
+
+    List<Delivery> findByDroneIsNull();
 }
