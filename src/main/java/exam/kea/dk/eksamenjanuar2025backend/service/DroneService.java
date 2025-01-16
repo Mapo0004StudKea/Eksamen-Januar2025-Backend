@@ -39,4 +39,12 @@ public class DroneService {
 
         return DroneRepository.save(drone);
     }
+
+    public Drone updateDroneStatus(Long droneId, DroneStatus newStatus) {
+        Drone drone = DroneRepository.findById(droneId)
+                .orElseThrow(() -> new IllegalArgumentException("Drone with ID " + droneId + " not found"));
+
+        drone.setStatus(newStatus);
+        return DroneRepository.save(drone);
+    }
 }

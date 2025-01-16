@@ -1,12 +1,11 @@
 package exam.kea.dk.eksamenjanuar2025backend.controller;
 
 import exam.kea.dk.eksamenjanuar2025backend.model.Drone;
+import exam.kea.dk.eksamenjanuar2025backend.model.DroneStatus;
 import exam.kea.dk.eksamenjanuar2025backend.service.DroneService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +32,11 @@ public class DroneController {
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @PostMapping("/enable")
+    public ResponseEntity<Drone> enableDrone(@RequestParam Long droneId) {
+        Drone updatedDrone = droneService.updateDroneStatus(droneId, DroneStatus.IN_SERVICE);
+        return new ResponseEntity<>(updatedDrone, HttpStatus.OK);
     }
 }
