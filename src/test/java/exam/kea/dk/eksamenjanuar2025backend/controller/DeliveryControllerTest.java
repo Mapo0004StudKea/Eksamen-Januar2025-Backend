@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
@@ -35,12 +37,14 @@ class DeliveryControllerTest {
         Mockito.when(deliveryService.addDelivery(pizzaId, address)).thenReturn(mockDelivery);
 
         // Act
-        Delivery response = deliveryController.addDelivery(pizzaId, address);
+        ResponseEntity<Delivery> response = deliveryController.addDelivery(pizzaId, address);
 
         // Assert
         assertNotNull(response);
-        assertEquals(1L, response.getId());
-        assertEquals(address, response.getAddress());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1L, response.getBody().getId());
+        assertEquals(address, response.getBody().getAddress());
     }
 
     @Test
@@ -57,13 +61,15 @@ class DeliveryControllerTest {
         Mockito.when(deliveryService.scheduleDelivery(deliveryId, droneId)).thenReturn(mockDelivery);
 
         // Act
-        Delivery response = deliveryController.scheduleDelivery(deliveryId, droneId);
+        ResponseEntity<Delivery> response = deliveryController.scheduleDelivery(deliveryId, droneId);
 
         // Assert
         assertNotNull(response);
-        assertEquals(deliveryId, response.getId());
-        assertNotNull(response.getDrone());
-        assertEquals(droneId, response.getDrone().getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(deliveryId, response.getBody().getId());
+        assertNotNull(response.getBody().getDrone());
+        assertEquals(droneId, response.getBody().getDrone().getId());
     }
 
     @Test
@@ -77,11 +83,13 @@ class DeliveryControllerTest {
         Mockito.when(deliveryService.finishDelivery(deliveryId)).thenReturn(mockDelivery);
 
         // Act
-        Delivery response = deliveryController.finishDelivery(deliveryId);
+        ResponseEntity<Delivery> response = deliveryController.finishDelivery(deliveryId);
 
         // Assert
         assertNotNull(response);
-        assertEquals(deliveryId, response.getId());
-        assertNotNull(response.getActualDeliveryTime());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(deliveryId, response.getBody().getId());
+        assertNotNull(response.getBody().getActualDeliveryTime());
     }
 }
