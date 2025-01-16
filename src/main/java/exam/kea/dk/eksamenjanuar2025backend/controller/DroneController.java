@@ -39,4 +39,16 @@ public class DroneController {
         Drone updatedDrone = droneService.updateDroneStatus(droneId, DroneStatus.IN_SERVICE);
         return new ResponseEntity<>(updatedDrone, HttpStatus.OK);
     }
+
+    @PostMapping("/disable")
+    public ResponseEntity<Drone> disableDrone(@RequestParam Long droneId) {
+        Drone updatedDrone = droneService.updateDroneStatus(droneId, DroneStatus.OUT_OF_SERVICE);
+        return new ResponseEntity<>(updatedDrone, HttpStatus.OK);
+    }
+
+    @PostMapping("/retire")
+    public ResponseEntity<Drone> retireDrone(@RequestParam Long droneId) {
+        Drone updatedDrone = droneService.updateDroneStatus(droneId, DroneStatus.PHASED_OUT);
+        return new ResponseEntity<>(updatedDrone, HttpStatus.OK);
+    }
 }
