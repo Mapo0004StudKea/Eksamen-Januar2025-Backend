@@ -1,7 +1,8 @@
 package exam.kea.dk.eksamenjanuar2025backend.controller;
 
-import exam.kea.dk.eksamenjanuar2025backend.model.Station;
+import exam.kea.dk.eksamenjanuar2025backend.dto.StationDTO;
 import exam.kea.dk.eksamenjanuar2025backend.service.StationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ public class StationController {
     }
 
     @GetMapping("/getAll")
-    public List<Station> getAll() {
-        return stationService.getAllStations();
+    public ResponseEntity<List<StationDTO>> getAll() {
+        List<StationDTO> stations = stationService.getAllStations();
+        return ResponseEntity.ok(stations);
     }
 }
