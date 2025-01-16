@@ -23,9 +23,8 @@ public class DeliveryController {
     }
 
     @PostMapping("/add")
-    public Delivery addDelivery(@RequestParam Long pizzaId) {
-        // Opret en ny levering med en specifik pizza
-        return deliveryService.addDelivery(pizzaId);
+    public Delivery addDelivery(@RequestParam Long pizzaId, @RequestParam String address) {
+        return deliveryService.addDelivery(pizzaId, address);
     }
 
     @GetMapping("/queue")
@@ -38,5 +37,11 @@ public class DeliveryController {
     public Delivery scheduleDelivery(@RequestParam Long deliveryId, @RequestParam(required = false) Long droneId) {
         // Tildel en drone til en levering
         return deliveryService.scheduleDelivery(deliveryId, droneId);
+    }
+
+    @PostMapping("/finish")
+    public Delivery finishDelivery(@RequestParam Long deliveryId) {
+        // Markér en levering som afsluttet
+        return deliveryService.finishDelivery(deliveryId);
     }
 }

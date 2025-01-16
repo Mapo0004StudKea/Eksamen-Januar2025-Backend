@@ -32,14 +32,20 @@ public class DeliveryService {
         return deliveryRepository.findByActualDeliveryTimeIsNullOrderByExpectedDeliveryTimeAsc();
     }
 
-    public Delivery addDelivery(Long pizzaId) {
+    public Delivery addDelivery(Long pizzaId, String address) {
         // Find pizza fra databasen
         Pizza pizza = pizzaRepository.findById(pizzaId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid pizza ID"));
 
+        // Valider adressen
+        if (address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address must not be null or empty");
+        }
+
         // Opret ny levering
         Delivery delivery = new Delivery();
         delivery.setPizza(pizza);
+        delivery.setAddress(address.trim());
         delivery.setExpectedDeliveryTime(LocalDateTime.now().plusMinutes(30));
 
         return deliveryRepository.save(delivery);
@@ -92,6 +98,21 @@ public class DeliveryService {
         delivery.setDrone(drone);
 
         // Gem ændringerne i databasen
+        return deliveryRepository.save(delivery);
+    }
+
+    public Delivery finishDelivery(Long deliveryId) {
+        // Find leveringen
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid delivery ID"));
+
+        // Tjek, om leveringen har en drone
+        if (delivery.getDrone() == null) {
+            throw new IllegalStateException("Delivery has no drone assigned");
+        }
+
+        // Markér leveringen som afsluttet med nuværende tidspunkt
+        delivery.setActualDeliveryTime(LocalDateTime.now());
         return deliveryRepository.save(delivery);
     }
 }
