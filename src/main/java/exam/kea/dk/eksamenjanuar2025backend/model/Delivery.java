@@ -24,11 +24,10 @@ public class Delivery {
     private LocalDateTime expectedDeliveryTime;
     private LocalDateTime actualDeliveryTime;
 
-    @ManyToOne
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     private Pizza pizza;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Drone drone;
 
     public Delivery(String address, LocalDateTime expectedDeliveryTime, LocalDateTime actualDeliveryTime, Pizza pizza, Drone drone) {
