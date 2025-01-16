@@ -25,4 +25,9 @@ public class Station {
 
     @OneToMany(mappedBy = "station")
     private List<Drone> drones;
+
+    public Station(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
