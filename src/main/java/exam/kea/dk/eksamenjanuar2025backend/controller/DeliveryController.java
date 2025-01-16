@@ -33,4 +33,10 @@ public class DeliveryController {
         // Returner alle leveringer, der mangler en drone
         return deliveryService.getUnassignedDeliveries();
     }
+
+    @PostMapping("/schedule")
+    public Delivery scheduleDelivery(@RequestParam Long deliveryId, @RequestParam(required = false) Long droneId) {
+        // Tildel en drone til en levering
+        return deliveryService.scheduleDelivery(deliveryId, droneId);
+    }
 }
