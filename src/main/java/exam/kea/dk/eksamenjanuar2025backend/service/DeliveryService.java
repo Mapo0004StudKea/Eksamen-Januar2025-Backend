@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class DeliveryService {
@@ -71,11 +72,15 @@ public class DeliveryService {
             }
             drone = optionalDrone.get();
         } else {
-            Optional<Drone> optionalDrone = droneRepository.findFirstByStatus(DroneStatus.IN_SERVICE);
-            if (optionalDrone.isEmpty()) {
+            // Hent alle droner med status "IN_SERVICE"
+            List<Drone> availableDrones = droneRepository.findAllByStatus(DroneStatus.IN_SERVICE);
+            if (availableDrones.isEmpty()) {
                 throw new IllegalStateException("No drones available");
             }
-            drone = optionalDrone.get();
+
+            // Vælg en tilfældig drone
+            int randomIndex = new Random().nextInt(availableDrones.size());
+            drone = availableDrones.get(randomIndex);
         }
 
         // Tjek, om dronen er "i drift"
