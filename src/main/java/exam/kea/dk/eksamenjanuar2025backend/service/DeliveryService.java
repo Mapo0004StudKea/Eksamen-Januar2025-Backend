@@ -115,4 +115,8 @@ public class DeliveryService {
         delivery.setActualDeliveryTime(LocalDateTime.now());
         return deliveryRepository.save(delivery);
     }
+
+    public List<Delivery> getAllDeliveries() {
+        return deliveryRepository.findAll();
+    }
 }

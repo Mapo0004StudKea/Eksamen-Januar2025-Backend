@@ -25,6 +25,11 @@ public class DeliveryController {
         return deliveryService.getPendingDeliveries();
     }
 
+    @GetMapping("/getAll")
+    public List<Delivery> getAllDeliveries() {
+        return deliveryService.getAllDeliveries();
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Delivery> addDelivery(@RequestParam Long pizzaId, @RequestParam String address) {
         Delivery delivery = deliveryService.addDelivery(pizzaId, address);
