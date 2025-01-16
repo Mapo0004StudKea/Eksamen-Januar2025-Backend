@@ -27,7 +27,7 @@ public class Drone {
     @Enumerated(EnumType.STRING)
     private DroneStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Station station;
 
     @OneToMany(mappedBy = "drone")
