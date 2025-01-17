@@ -32,25 +32,63 @@ public class DeliveryController {
 
     @PostMapping("/add")
     public ResponseEntity<Delivery> addDelivery(@RequestParam Long pizzaId, @RequestParam String address) {
-        Delivery delivery = deliveryService.addDelivery(pizzaId, address);
-        return new ResponseEntity<>(delivery, HttpStatus.CREATED);
+        try {
+            Delivery delivery = deliveryService.addDelivery(pizzaId, address);
+            // Returner HTTP 201 Created
+            return ResponseEntity.status(HttpStatus.CREATED).body(delivery);
+        } catch (IllegalArgumentException e) {
+            // Returner HTTP 400 Bad Request
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            // Returner HTTP 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/queue")
     public ResponseEntity<List<Delivery>> getUnassignedDeliveries() {
         List<Delivery> deliveries = deliveryService.getUnassignedDeliveries();
-        return new ResponseEntity<>(deliveries, HttpStatus.OK);
+        if (deliveries.isEmpty()) {
+            // Returner HTTP 204 No Content, hvis listen er tom
+            return ResponseEntity.noContent().build();
+        }
+        // Returner HTTP 200 OK
+        return ResponseEntity.ok(deliveries);
     }
 
     @PostMapping("/schedule")
     public ResponseEntity<Delivery> scheduleDelivery(@RequestParam Long deliveryId, @RequestParam(required = false) Long droneId) {
-        Delivery delivery = deliveryService.scheduleDelivery(deliveryId, droneId);
-        return new ResponseEntity<>(delivery, HttpStatus.OK);
+        try {
+            Delivery delivery = deliveryService.scheduleDelivery(deliveryId, droneId);
+            // Returner HTTP 200 OK
+            return ResponseEntity.ok(delivery);
+        } catch (IllegalArgumentException e) {
+            // Returner HTTP 400 Bad Request
+            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            // Returner HTTP 409 Conflict
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (Exception e) {
+            // Returner HTTP 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/finish")
     public ResponseEntity<Delivery> finishDelivery(@RequestParam Long deliveryId) {
-        Delivery delivery = deliveryService.finishDelivery(deliveryId);
-        return new ResponseEntity<>(delivery, HttpStatus.OK);
+        try {
+            Delivery delivery = deliveryService.finishDelivery(deliveryId);
+            // Returner HTTP 200 OK
+            return ResponseEntity.ok(delivery);
+        } catch (IllegalArgumentException e) {
+            // Returner HTTP 400 Bad Request
+            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            // Returner HTTP 409 Conflict
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (Exception e) {
+            // Returner HTTP 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
