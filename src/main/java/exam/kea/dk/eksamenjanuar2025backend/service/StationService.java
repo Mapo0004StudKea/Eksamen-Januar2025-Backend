@@ -17,7 +17,8 @@ public class StationService {
     }
 
     public List<StationDTO> getAllStations() {
-        return stationRepository.findAll().stream()
+        return stationRepository.findAll()
+                .stream()
                 .map(station -> new StationDTO(
                         station.getId(),
                         station.getLatitude(),
